@@ -1,5 +1,5 @@
 $(function() {
-  // Test Suite named "RSS Feeds"
+  // Test Suite named 'RSS Feeds'
   describe('RSS Feeds', function() {
     // Test1 - Ensures allFeeds are defined.
     it('are defined', function() {
@@ -24,8 +24,8 @@ $(function() {
     });
   });
 
-  // Test Suite named "The Menu"
-  describe("The Menu", function() {
+  // Test Suite named 'The Menu'
+  describe('The Menu', function() {
     // Test1 - Ensures the menu is hidden by default.
     it('is hidden by default', function() {
       expect($('body').hasClass('menu-hidden')).toBe(true);
@@ -44,8 +44,8 @@ $(function() {
     });
   });
 
-  // Test Suite named "Initial Entries"
-  describe("Initial Entries", function() {
+  // Test Suite named 'Initial Entries'
+  describe('Initial Entries', function() {
     // Test1 - Ensures when the loadFeed function is called and completes its work.
     beforeEach(function(done) {
       loadFeed(0, done);
@@ -56,22 +56,24 @@ $(function() {
     });
   });
 
-  // Test Suite named "New Feed Selection"
-  describe("New Feed Selection", function() {
+  // Test Suite named 'New Feed Selection'
+  describe('New Feed Selection', function() {
     let feed = document.querySelector('.feed');
-    let oldFeed = [];
+    let firstFeed, secondFeed;
+
     // Test1 - Ensures when a new feed is loaded the content changes.
-    beforeEach(function(done) {
-      loadFeed(0);
-      Array.from(feed.children).forEach(function(entry) {
-        oldFeed.push(entry.innerText);
+    beforeEach((done) => {
+      loadFeed(0, function() {
+        firstFeed = $('.feed').html();
+        loadFeed(1, function() {
+          secondFeed = $('.feed').html();
+          done();
+        });
       });
-      loadFeed(1, done);
     });
+
     it('content has changed', function() {
-      Array.from(feed.children).forEach(function(entry, index) {
-        expect(entry.innerText === oldFeed[index]).toBe(false);
-      });
+      expect(secondFeed).not.toBe(firstFeed);
     });
   });
 });
